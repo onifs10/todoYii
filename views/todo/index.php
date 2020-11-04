@@ -22,15 +22,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+//        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
             'title',
             'body:ntext',
-            'done',
-            'created_at',
+            'created_at:date',
+            'done' => [
+                'label' => 'Done',
+                'value' => function ($model){
+                    return  $model->done   ?  "<h5 class='text-success'><span class='glyphicon glyphicon-ok' ></span> checked </h5>" : '<span class="glyphicon glyphicon-remove text-danger" ></span>  '. Html::a( 'check' , ['/todo/tick','id' => $model->id],['class' => 'text-danger'  ]);
+                },
+                'format' => 'raw',
+            ],
             //'updated_at',
 
             ['class' => 'yii\grid\ActionColumn'],

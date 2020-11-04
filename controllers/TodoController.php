@@ -89,12 +89,24 @@ class TodoController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
         return $this->render('update', [
             'model' => $model,
         ]);
     }
-
+    public function actionTick($id = null)
+    {
+        if($id)
+        {
+            $model = $this->findModel($id);
+            $model->done = 1 ;
+            $model->save();
+            return  $this->redirect(['index']);
+        }else{
+            return $this->redirect([
+                'index'
+            ]);
+        }
+    }
     /**
      * Deletes an existing Todos model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
